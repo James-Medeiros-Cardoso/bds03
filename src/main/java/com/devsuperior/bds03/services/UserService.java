@@ -1,0 +1,35 @@
+package com.devsuperior.bds03.services;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.devsuperior.bds03.entities.User;
+import com.devsuperior.bds03.repositories.UserRepository;
+
+@Service
+public class UserService implements UserDetailsService {
+
+	// instanciando o Logger
+	private static Logger Logger = LoggerFactory.getLogger(UserService.class);
+	
+	@Autowired
+	private UserRepository repository;
+
+	// UserDetailsService:
+	@Override // retorna username (email) de acordo com o UserDetails
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = repository.findByEmail(username);
+		if (user == null) {
+			Logger.error("User not found: " + username);
+			throw new UsernameNotFoundException("Email not found");
+		}
+		Logger.info("User found: " + username);
+		return user;
+	}
+
+}

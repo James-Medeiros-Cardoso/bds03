@@ -61,7 +61,7 @@ public class EmployeeControllerIT {
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON));
 		
-		result.andExpect(status().isForbidden());
+		result.andExpect(status().isForbidden()); // 403 = operador não tem permissão
 	}	
 
 	@Test
@@ -76,7 +76,7 @@ public class EmployeeControllerIT {
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON));
 		
-		result.andExpect(status().isUnauthorized());
+		result.andExpect(status().isUnauthorized()); // não há usuário logado
 	}	
 	
 	@Test
